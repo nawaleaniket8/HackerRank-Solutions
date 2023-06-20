@@ -1,0 +1,53 @@
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+class Result {
+
+    /*
+     * Complete the 'timeConversion' function below.
+     *
+     * The function is expected to return a STRING.
+     * The function accepts STRING s as parameter.
+     */
+
+    public static String timeConversion(String s) {
+        try {
+            // Create a SimpleDateFormat object with the input time format
+            SimpleDateFormat inputFormat = new SimpleDateFormat("hh:mm:ssa");
+            // Create a SimpleDateFormat object with the desired output time format
+            SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm:ss");
+
+            // Parse the input time string into a Date object
+            Date date = inputFormat.parse(s);
+            // Convert the Date object to the desired output time format
+            String convertedTime = outputFormat.format(date);
+
+            // Return the converted time string
+            return convertedTime;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ""; // Return an empty string if there is an error
+    }
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String s = bufferedReader.readLine();
+
+        // Call the timeConversion function with the input time string
+        String result = Result.timeConversion(s);
+
+        bufferedWriter.write(result);
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
+//code by Aniket Chandrakant Nawale
