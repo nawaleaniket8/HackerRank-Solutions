@@ -1,0 +1,110 @@
+import java.util.*;
+
+class Result {
+
+    public static int twoPluses(List<String> grid) {
+        int n = grid.size();
+        int m = grid.get(0).length();
+
+        int[][] areas = new int[n][m];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (grid.get(i).charAt(j) == 'G') {
+                    areas[i][j] = 1;
+                }
+            }
+        }
+
+        int maxProduct = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (areas[i][j] == 1) {
+                    int k = 0;
+                    while (isValidPlus(areas, i, j, k)) {
+                        areas[i][j + k] = areas[i][j - k] = areas[i + k][j] = areas[i - k][j] = 0;
+                        int area1 = calculateArea(k);
+                        int area2 = findLargestPlusArea(areas);
+                        maxProduct = Math.max(maxProduct, area1 * area2);
+                        k++;
+                    }
+                    resetGrid(areas, grid);
+                }
+            }
+        }
+
+        return maxProduct;
+    }
+
+    private static boolean isValidPlus(int[][] areas, int row, int col, int k) {
+        int n = areas.length;
+        int m = areas[0].length;
+
+        if (row - k < 0 || row + k >= n || col - k < 0 || col + k >= m) {
+            return false;
+        }
+
+        return areas[row][col - k] == 1
+                && areas[row][col + k] == 1
+                && areas[row - k][col] == 1
+                && areas[row + k][col] == 1;
+    }
+
+    private static int calculateArea(int k) {
+        return (4 * k) + 1;
+    }
+
+    private static int findLargestPlusArea(int[][] areas) {
+        int n = areas.length;
+        int m = areas[0].length;
+        int maxArea = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (areas[i][j] == 1) {
+                    int k = 0;
+                    while (isValidPlus(areas, i, j, k)) {
+                        k++;
+                    }
+                    maxArea = Math.max(maxArea, calculateArea(k - 1));
+                }
+            }
+        }
+
+        return maxArea;
+    }
+
+    private static void resetGrid(int[][] areas, List<String> grid) {
+        int n = areas.length;
+        int m = areas[0].length;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (grid.get(i).charAt(j) == 'G') {
+                    areas[i][j] = 1;
+                }
+            }
+        }
+    }
+}
+
+public class Solution {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = scanner.nextInt();
+        int m = scanner.nextInt();
+        scanner.nextLine();
+
+        List<String> grid = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            String line = scanner.nextLine();
+            grid.add(line);
+        }
+
+        int result = Result.twoPluses(grid);
+        System.out.println(result);
+
+        scanner.close();
+    }
+}
