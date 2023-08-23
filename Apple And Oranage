@@ -1,0 +1,56 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+
+        String[] firstMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+        int s = Integer.parseInt(firstMultipleInput[0]);
+        int t = Integer.parseInt(firstMultipleInput[1]);
+
+        String[] secondMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+        int a = Integer.parseInt(secondMultipleInput[0]);
+        int b = Integer.parseInt(secondMultipleInput[1]);
+
+        String[] thirdMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+        int m = Integer.parseInt(thirdMultipleInput[0]);
+        int n = Integer.parseInt(thirdMultipleInput[1]);
+
+        List<Integer> apples = Arrays.stream(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+            .map(Integer::parseInt)
+            .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+
+        List<Integer> oranges = Arrays.stream(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+            .map(Integer::parseInt)
+            .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+        // code by Aniket nawale
+        // Count apples and oranges that land on Sam's house
+        int appleCount = 0;
+        int orangeCount = 0;
+
+        for (Integer apple : apples) {
+            int appleLandingPos = a + apple;
+            if (appleLandingPos >= s && appleLandingPos <= t) {
+                appleCount++;
+            }
+        }
+
+        for (Integer orange : oranges) {
+            int orangeLandingPos = b + orange;
+            if (orangeLandingPos >= s && orangeLandingPos <= t) {
+                orangeCount++;
+            }
+        }
+
+        // Print the counts
+        System.out.println(appleCount);
+        System.out.println(orangeCount);
+
+        bufferedReader.close();
+    }
+}
